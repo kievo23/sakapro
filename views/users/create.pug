@@ -1,0 +1,35 @@
+extends ../layout
+block content
+  form(method="post", action="/users/create")
+    .c-forms-form(tabindex='0')
+            .c-text-singleline.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
+              .c-label
+                label(for='c-0-220') names
+              .c-editor
+                input#c-0-220(type='text', placeholder='names')
+              .c-validation names is required.
+            .c-text-singleline.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
+              .c-label
+                label(for='c-1-219') email
+              .c-editor
+                input#c-1-219(type='text', placeholder='email')
+              .c-validation email is required.
+            .c-phone.c-phone-us.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
+              .c-label
+                label(for='c-2-218') Phone
+              .c-editor
+                input#c-2-218(type='text', placeholder='Phone')
+              .c-validation Phone is required.
+            .c-text-singleline.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12
+              .c-label
+                label(for='c-3-217') otp
+              .c-editor
+                input#c-3-217(type='text', placeholder='otp')
+              .c-validation
+      .c-forms-confirmation
+        .c-forms-heading
+          .c-forms-logo(style='display:none;')
+          .c-forms-form-title
+            h2 Untitled
+        .c-forms-confirmation-message.c-html(sys:attach='dataview', dataview:data='{binding entry, source={{ Cognito.Forms.model }} }')
+          span Thank you for filling out the form. Your response has been recorded.
