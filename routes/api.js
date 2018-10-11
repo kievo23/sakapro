@@ -37,6 +37,24 @@ router.post('/user/verifyotp',function(req, res){
   });
 });
 
+router.post('/user/generate',function(){
+  User.findOne({phone: req.body.phone}).then(function(d){
+    if(d){
+      var code = Math.floor((Math.random() * 9999) + 1000);
+      d.otp = code;
+      d.save(function(err){
+        if(err){
+          res.json(code:101, msg: "something went wrong");
+        }else{
+          res.json(code:101, msg: "OTP generated successfully");
+        }
+      })
+    }else{
+      res.json({code:101, msg: "User not found"});
+    }
+  });
+});
+
 router.post('/prof/create',function(req, res){
   var code = Math.floor((Math.random() * 9999) + 1000);
   Prof.create({
@@ -60,7 +78,7 @@ router.post('/prof/create',function(req, res){
   });
 });
 
-router.post('/user/verifyotp',function(req, res){
+router.post('/prof/verifyotp',function(req, res){
   Prof.find({
     phone: req.body.phone,
     otp: req.body.otp
