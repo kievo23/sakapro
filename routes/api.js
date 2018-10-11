@@ -44,7 +44,6 @@ router.post('/prof/create',function(req, res){
     email: req.body.email,
     phone: req.body.phone,
     dob: req.body.dob,
-    phone: req.body.phone,
     email: req.body.email,
     pin: req.body.pin,
     idno: req.body.idno,
