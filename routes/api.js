@@ -46,7 +46,7 @@ router.post('/user/generateotp',function(req, res){
         if(err){
           res.json({code:101, msg: "something went wrong"});
         }else{
-          res.json({code:101, msg: "OTP generated successfully"});
+          res.json({code:100, msg: "OTP generated successfully"});
         }
       })
     }else{
