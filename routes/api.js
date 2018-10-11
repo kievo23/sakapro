@@ -44,9 +44,9 @@ router.post('/user/generate',function(){
       d.otp = code;
       d.save(function(err){
         if(err){
-          res.json(code:101, msg: "something went wrong");
+          res.json({code:101, msg: "something went wrong"});
         }else{
-          res.json(code:101, msg: "OTP generated successfully");
+          res.json({code:101, msg: "OTP generated successfully"});
         }
       })
     }else{
