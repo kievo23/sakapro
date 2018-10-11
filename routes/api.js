@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require(__dirname + '/../models/User');
 var Prof = require(__dirname + '/../models/Pro');
+var Category = require(__dirname + '/../models/Category');
 
 router.post('/user/create',function(req, res){
   var code = Math.floor((Math.random() * 9999) + 1000);
@@ -72,5 +73,11 @@ router.post('/user/verifyotp',function(req, res){
     }
   });
 });
+
+router.get('/category', function(req, res){
+  Category.find({}).then(function(d){
+    res.json(d);
+  })
+})
 
 module.exports = router;
