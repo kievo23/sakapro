@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var User = require(__dirname + '/../models/User');
+var Prof = require(__dirname + '/../models/Pro');
 
-router.post('/create',function(req, res){
+router.post('/user/create',function(req, res){
   var code = Math.floor((Math.random() * 9999) + 1000);
   User.create({
     names : req.body.names,
@@ -21,8 +22,44 @@ router.post('/create',function(req, res){
   });
 });
 
-router.post('/verifyotp',function(req, res){
+router.post('/user/verifyotp',function(req, res){
   User.find({
+    phone: req.body.phone,
+    otp: req.body.otp
+  },function(err, user){
+    if(err){
+      console.log(err);
+      res.json({code: 101, err: err});
+    }else{
+      res.json({code: 100, user: user});
+    }
+  });
+});
+
+router.post('/prof/create',function(req, res){
+  Prof.create({
+    nickname: req.body.nickname,
+    names : req.body.names,
+    email: req.body.email,
+    phone: req.body.phone,
+    dob: req.body.dob,
+    phone: req.body.phone,
+    email: req.body.email,
+    pin: req.body.pin,
+    idno: req.body.idno,
+    jobtype: req.body.jobtype
+  },function(err, user){
+    if(err){
+      console.log(err);
+      res.json({code: 101, err: err});
+    }else{
+      res.json({code: 100, user: user});
+    }
+  });
+});
+
+router.post('/user/verifyotp',function(req, res){
+  Prof.find({
     phone: req.body.phone,
     otp: req.body.otp
   },function(err, user){

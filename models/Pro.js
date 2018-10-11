@@ -6,16 +6,18 @@ mongoose.Promise =require('bluebird');
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-		username: { type: String, index: { unique: true, sparse: true }},
+const profSchema = new Schema({
+		nickname: { type: String, index: { unique: true, sparse: true }},
 		names: String,
-    facebookid: {type:String},
-    googleid: {type:String},
 		phone: String,
 		password: String,
 		role: String,
 		email: String,
+    pin: String,
+    dob: String,
+    idno: String,
+    jobtype: { type: Schema.Types.ObjectId, ref: 'Category' },
 		otp: String
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Prof', profSchema);
