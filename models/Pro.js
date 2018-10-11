@@ -7,15 +7,15 @@ mongoose.Promise =require('bluebird');
 const Schema = mongoose.Schema;
 
 const profSchema = new Schema({
-		nickname: { type: String, index: { unique: true, sparse: true }},
+		nickname: { type: String},
 		names: String,
-		phone: String,
+		phone: { type: String, index: { unique: true, sparse: true }},
 		password: String,
 		role: String,
-		email: String,
+		email: { type: String, index: { unique: true, sparse: true }},
     pin: String,
     dob: String,
-    idno: String,
+    idno: { type: String, index: { unique: true, sparse: true }},
     jobtype: { type: Schema.Types.ObjectId, ref: 'Category' },
 		otp: String
 });
