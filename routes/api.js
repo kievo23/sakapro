@@ -9,7 +9,7 @@ router.post('/create',function(req, res){
     email: req.body.email,
     phone: req.body.phone,
     facebookid: req.body.facebookid,
-    googleid: req.body.googleid
+    googleid: req.body.googleid,
     otp: code
   },function(err, user){
     if(err){
