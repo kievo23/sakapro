@@ -24,7 +24,7 @@ router.post('/user/create',function(req, res){
 });
 
 router.post('/user/verifyotp',function(req, res){
-  User.find({
+  User.findOne({
     phone: req.body.phone,
     otp: req.body.otp
   },function(err, user){
