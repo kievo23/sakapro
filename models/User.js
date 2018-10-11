@@ -9,7 +9,6 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
 		username: { type: String, index: { unique: true, sparse: true }},
 		names: String,
-		googleId: String,
 		isfacebooklogin: {type:Boolean},
     facebookid: {type:String},
     googleid: {type:String},
