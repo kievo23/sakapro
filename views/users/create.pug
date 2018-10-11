@@ -2,20 +2,20 @@ extends ../layout
 block content
   form(method="post", action="/users/create")
     .c-forms-form(tabindex='0')
-            .c-text-singleline.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
-              .c-label
-                label(for='c-0-220') names
-              .c-editor
-                input#c-0-220(type='text', placeholder='names',name='names')
-            .c-text-singleline.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
-              .c-label
-                label(for='c-1-219') email
-              .c-editor
-                input#c-1-219(type='text', placeholder='email',name='email')
-            .c-phone.c-phone-us.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
-              .c-label
-                label(for='c-2-218') Phone
-              .c-editor
-                input#c-2-218(type='text', placeholder='Phone',name='phone')
-            .c-forms-heading
-              input(type="submit", value="Submit")
+      .c-text-singleline.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
+        .c-label
+          label(for='c-0-220') names
+        .c-editor
+          input#c-0-220(type='text', placeholder='names',name='names')
+      .c-text-singleline.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
+        .c-label
+          label(for='c-1-219') email
+        .c-editor
+          input#c-1-219(type='text', placeholder='email',name='email')
+      .c-phone.c-phone-us.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
+        .c-label
+          label(for='c-2-218') Phone
+        .c-editor
+          input#c-2-218(type='text', placeholder='Phone',name='phone')
+      .c-forms-heading
+        input(type="submit", value="Submit")

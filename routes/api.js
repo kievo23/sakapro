@@ -21,4 +21,18 @@ router.post('/create',function(req, res){
   });
 });
 
+router.post('/verifyotp',function(req, res){
+  User.find({
+    phone: req.body.phone,
+    otp: req.body.otp
+  },function(err, user){
+    if(err){
+      console.log(err);
+      res.json({code: 101, err: err});
+    }else{
+      res.json({code: 100, user: user});
+    }
+  });
+});
+
 module.exports = router;
