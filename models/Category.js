@@ -12,14 +12,7 @@ const catSchema = new Schema({
 		slug: {
 			type: String,
 			unique: true
-		},
-		icon: String,
-		approved: String,
-		order: String,
-		photo: String,
-		subcategories: [{
-			name: {type: String, index: { unique: false , sparse: true}}
-		}],
+		}
 });
 
 module.exports = mongoose.model('Category', catSchema);

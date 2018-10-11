@@ -1,0 +1,33 @@
+extends ../layout
+block content 
+  // MAIN CONTENT
+  .main-content
+    .section__content.section__content--p30
+      .container-fluid
+        .row
+          .col-md-12
+            // DATA TABLE
+            
+            .table-responsive.table-responsive-data2
+              table.table.table-data2
+                thead
+                  tr
+                    th NO.
+                    th NAME
+                    th ACTIONS
+                tbody
+                  if(users)
+                    each cat, i in categories
+                      tr.tr-shadow
+                        td
+                          =i+1
+                        td 
+                          =cat.name
+                        td
+                          .table-data-feature
+                            a(href="/admin/user/delete/"+cat.id, title="Delete User")
+                              button.item(data-toggle='tooltip' data-placement='top' title='Delete')
+                                i.zmdi.zmdi-delete
+                        
+                        
+                    tr.spacer
