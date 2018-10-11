@@ -37,7 +37,7 @@ router.post('/user/verifyotp',function(req, res){
   });
 });
 
-router.post('/user/generate',function(){
+router.post('/user/generateotp',function(req, res){
   User.findOne({phone: req.body.phone}).then(function(d){
     if(d){
       var code = Math.floor((Math.random() * 9999) + 1000);
