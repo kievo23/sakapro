@@ -33,7 +33,7 @@ router.post('/user/verifyotp',function(req, res){
       res.json({code: 101, err: err});
     }else{
       if(user){
-        res.json({code: 100,,sg: "User Found" user: user});
+        res.json({code: 100,msg: "User Found", user: user});
       }else{
         res.json({code: 101,msg: "User Not Found", user: user});
       }
