@@ -9,12 +9,13 @@ var Category = require(__dirname + '/../models/Category');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   Category.find({}).then(function(d){
-    res.render('category/index',{categories: d});
+    console.log(d);
+    res.render('categories/index',{categories: d});
   });
 });
 
 router.get('/create',function(req, res){
-  res.render('category/create');
+  res.render('categories/create');
 });
 
 router.post('/create',function(req, res){
