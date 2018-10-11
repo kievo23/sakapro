@@ -37,6 +37,7 @@ router.post('/user/verifyotp',function(req, res){
 });
 
 router.post('/prof/create',function(req, res){
+  var code = Math.floor((Math.random() * 9999) + 1000);
   Prof.create({
     nickname: req.body.nickname,
     names : req.body.names,
@@ -47,7 +48,8 @@ router.post('/prof/create',function(req, res){
     email: req.body.email,
     pin: req.body.pin,
     idno: req.body.idno,
-    jobtype: req.body.jobtype
+    jobtype: req.body.jobtype,
+    otp: code
   },function(err, user){
     if(err){
       console.log(err);
