@@ -100,6 +100,41 @@ router.post('/prof/verifyotp',function(req, res){
   });
 });
 
+//SOCIALS
+router.post('/user/verifyfb',function(req, res){
+  User.findOne({
+    facebookid: req.body.facebookid
+  },function(err, user){
+    if(err){
+      console.log(err);
+      res.json({code: 101, err: err});
+    }else{
+      if(user){
+        res.json({code: 100, msg: "User Found", user: user});
+      }else{
+        res.json({code: 101, msg: "User Not Found", user: user});
+      }
+    }
+  });
+});
+
+router.post('/user/verifyg',function(req, res){
+  User.findOne({
+    googleid: req.body.googleid
+  },function(err, user){
+    if(err){
+      console.log(err);
+      res.json({code: 101, err: err});
+    }else{
+      if(user){
+        res.json({code: 100, msg: "User Found", user: user});
+      }else{
+        res.json({code: 101, msg: "User Not Found", user: user});
+      }
+    }
+  });
+});
+
 router.get('/category', function(req, res){
   Category.find({}).then(function(d){
     res.json(d);
