@@ -30,7 +30,7 @@ router.post('/user/create',function(req, res){
            u: 'Goodlife',
            h: 'a425d383d0af9d75a9ab1db94747e441',
            op: 'pv',
-           to: user.phone,
+           to: d.phone,
            msg: 'OTP code is: '+ code },
         headers:
          { 'postman-token': '4ca47976-a3bc-69d6-0cae-e80049f926e9',
