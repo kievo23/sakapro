@@ -11,7 +11,7 @@ const userSchema = new Schema({
 		names: String,
     facebookid: {type:String},
     googleid: {type:String},
-		phone: String,
+		phone: { type: String, index: { unique: true, sparse: true }},
 		password: String,
 		role: String,
 		email: String,
