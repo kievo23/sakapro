@@ -23,6 +23,24 @@ router.post('/user/create',function(req, res){
       console.log(err);
       res.json({code: 101, err: err});
     }else{
+      var options = { method: 'GET',
+        url: 'http://infopi.io/text/index.php',
+        qs:
+         { app: 'ws',
+           u: 'Goodlife',
+           h: 'a425d383d0af9d75a9ab1db94747e441',
+           op: 'pv',
+           to: user.phone,
+           msg: 'OTP code is: '+ code },
+        headers:
+         { 'postman-token': '4ca47976-a3bc-69d6-0cae-e80049f926e9',
+           'cache-control': 'no-cache' } };
+
+      request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+        res.json({code:100, msg: "OTP generated successfully"});
+        //console.log(body);
+      });
       res.json({code: 100, user: user});
     }
   });
