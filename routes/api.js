@@ -30,12 +30,12 @@ router.post('/user/create',function(req, res){
            u: 'Goodlife',
            h: 'a425d383d0af9d75a9ab1db94747e441',
            op: 'pv',
-           to: d.phone,
+           to: user.phone,
            msg: 'OTP code is: '+ code } };
 
       request(options, function (error, response, body) {
         if (error) throw new Error(error);
-        res.json({code:100, msg: "OTP generated successfully"}, user: user);
+        res.json({code:100, msg: "OTP generated successfully"});
         //console.log(body);
       });
     }
