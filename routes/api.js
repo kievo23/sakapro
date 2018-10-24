@@ -8,7 +8,7 @@ var Prof = require(__dirname + '/../models/Pro');
 var Category = require(__dirname + '/../models/Category');
 
 router.post('/user/create',function(req, res){
-  var code = Math.floor((Math.random() * 9999) + 1000);
+  var code = Math.floor((Math.random() * 9000) + 1000);
   var phone = req.body.phone.replace(/\s+/g, '');
   phone = "254"+phone.substr(phone.length - 9);
   User.create({
@@ -32,7 +32,6 @@ router.post('/user/create',function(req, res){
            op: 'pv',
            to: user.phone,
            msg: 'OTP code is: '+ code } };
-
       request(options, function (error, response, body) {
         if (error) throw new Error(error);
         //console.log(body);
@@ -67,7 +66,7 @@ router.post('/user/generateotp',function(req, res){
   phone = "254"+phone.substr(phone.length - 9);
   User.findOne({phone: phone}).then(function(d){
     if(d){
-      var code = Math.floor((Math.random() * 9999) + 1000);
+      var code = Math.floor((Math.random() * 9000) + 1000);
       d.otp = code;
       d.save(function(err){
         if(err){
@@ -185,11 +184,12 @@ router.post('/nearby', function(req, res){
      $geoNear: {
         near: { type: "Point", coordinates: [ req.body.longitude , req.body.longitude ] },
         distanceField: "dist.calculated",
+        key: "location",
         maxDistance: 20000,
         spherical: false
      }
    }
-]).find((error, results) => {
+]).then((error, results) => {
     if (error) {console.log(error);}
       //console.log(JSON.stringify(results, 0, 2));
       else{
@@ -202,6 +202,6 @@ router.get('/category', function(req, res){
   Category.find({}).then(function(d){
     res.json(d);
   })
-})
+});
 
 module.exports = router;
