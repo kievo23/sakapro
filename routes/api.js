@@ -31,17 +31,13 @@ router.post('/user/create',function(req, res){
            h: 'a425d383d0af9d75a9ab1db94747e441',
            op: 'pv',
            to: d.phone,
-           msg: 'OTP code is: '+ code },
-        headers:
-         { 'postman-token': '4ca47976-a3bc-69d6-0cae-e80049f926e9',
-           'cache-control': 'no-cache' } };
+           msg: 'OTP code is: '+ code } };
 
       request(options, function (error, response, body) {
         if (error) throw new Error(error);
-        res.json({code:100, msg: "OTP generated successfully"});
+        res.json({code:100, msg: "OTP generated successfully"}, user: user);
         //console.log(body);
       });
-      res.json({code: 100, user: user});
     }
   });
 });
