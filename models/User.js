@@ -7,7 +7,7 @@ mongoose.Promise =require('bluebird');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-		username: { type: String, index: { unique: true, sparse: true }},
+		username: { type: String},
 		names: String,
     facebookid: {type:String},
     googleid: {type:String},

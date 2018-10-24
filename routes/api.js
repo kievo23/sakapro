@@ -118,6 +118,7 @@ router.post('/prof/create',function(req, res){
     pin: req.body.pin,
     idno: req.body.idno,
     jobtype: req.body.jobtype,
+    location: {type: "Point", coordinates: [ req.body.longitude, req.body.latitude ] },
     otp: code
   },function(err, user){
     if(err){
@@ -182,7 +183,26 @@ router.post('/user/verifyg',function(req, res){
   });
 });
 
-
+router.post('/nearby', function(req, res){
+  Prof.aggregate([
+   {
+     $geoNear: {
+        near: { type: "Point", coordinates: [ req.body.longitude , req.body.longitude ] },
+        distanceField: "dist.calculated",
+        maxDistance: 20000,
+        includeLocs: "dist.location",
+        num: 5,
+        spherical: true
+     }
+   }
+]).find((error, results) => {
+    if (error) {console.log(error);}
+      //console.log(JSON.stringify(results, 0, 2));
+      else{
+        res.json(results);
+      }
+   });
+});
 
 router.get('/category', function(req, res){
   Category.find({}).then(function(d){
