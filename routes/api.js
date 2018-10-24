@@ -35,9 +35,9 @@ router.post('/user/create',function(req, res){
 
       request(options, function (error, response, body) {
         if (error) throw new Error(error);
-        res.json({code:100, msg: "OTP generated successfully"});
         //console.log(body);
       });
+      res.json({code:100, msg: "OTP generated successfully",user: user});
     }
   });
 });
@@ -186,9 +186,7 @@ router.post('/nearby', function(req, res){
         near: { type: "Point", coordinates: [ req.body.longitude , req.body.longitude ] },
         distanceField: "dist.calculated",
         maxDistance: 20000,
-        includeLocs: "dist.location",
-        num: 5,
-        spherical: true
+        spherical: false
      }
    }
 ]).find((error, results) => {
