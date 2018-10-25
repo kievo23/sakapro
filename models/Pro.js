@@ -17,7 +17,7 @@ const profSchema = new Schema({
     dob: String,
 		location: {
 		   type: { type: String },
-		   coordinates: Array
+		   coordinates: [Number]
 	  },
     idno: { type: String, index: { unique: true, sparse: true }},
     jobtype: { type: Schema.Types.ObjectId, ref: 'Category' },

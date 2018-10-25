@@ -179,18 +179,12 @@ router.post('/user/verifyg',function(req, res){
 });
 
 router.post('/nearby', function(req, res){
-  Prof.aggregate([
-   {
-     $geoNear: {
-        near: { type: "Point", coordinates: [ req.body.longitude , req.body.longitude ] },
-        distanceField: "dist.calculated",
-        key: "location",
-        maxDistance: 20000,
-        spherical: false
-     }
-   }
-]).then((error, results) => {
-    if (error) {console.log(error);}
+  var point = { type : "Point", coordinates : [36.8216553,-1.2756141] };
+  Prof.geoNear(point, { maxDistance : 5000000, spherical : true,distanceMultiplier: 0.001 }).then(function(error, results){
+    if (error) {
+      console.log("error");
+      res.json(error);
+    }
       //console.log(JSON.stringify(results, 0, 2));
       else{
         res.json(results);
