@@ -12,7 +12,8 @@ const catSchema = new Schema({
 		slug: {
 			type: String,
 			unique: true
-		}
+		},
+		price: String
 });
 
 module.exports = mongoose.model('Category', catSchema);

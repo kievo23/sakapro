@@ -21,6 +21,7 @@ router.get('/create',function(req, res){
 router.post('/create',function(req, res){
   Category.create({
     name : req.body.name,
+    price: req.body.price,
     slug : slug(req.body.name)
   },function(err, category){
     if(err){

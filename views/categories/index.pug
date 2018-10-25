@@ -15,6 +15,7 @@ block content
                   tr
                     th NO.
                     th NAME
+                    th PRICE
                     th ACTIONS
                 tbody
                   each cat, i in categories
@@ -23,6 +24,8 @@ block content
                         =i+1
                       td 
                         =cat.name
+                      td 
+                        =cat.price
                       td
                         .table-data-feature
                           a(href="/admin/user/delete/"+cat.id, title="Delete User")
