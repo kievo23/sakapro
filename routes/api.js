@@ -179,7 +179,7 @@ router.post('/user/verifyg',function(req, res){
 });
 
 router.post('/nearby', function(req, res){
-  var point = { type : "Point", coordinates : [36.8216553,-1.2756141] };
+  var point = { type : "Point", coordinates : [req.body.longitude,req.body.latitude] };
   Prof.geoNear(point, { maxDistance : 5000000, spherical : true,distanceMultiplier: 0.001 }).then(function(error, results){
     if (error) {
       console.log("error");
