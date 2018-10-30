@@ -143,6 +143,24 @@ router.post('/prof/verifyotp',function(req, res){
   });
 });
 
+router.post('/prof/login',function(req, res){
+  Prof.find({
+    phone: req.body.phone,
+    pin: req.body.pin
+  },function(err, user){
+    if(err){
+      console.log(err);
+      res.json({code: 101, err: err});
+    }else{
+      if(user){
+        res.json({code: 100, data: user});
+      }else{
+        res.json({code: 101, msg: "User not found"});
+      }
+    }
+  });
+});
+
 //SOCIALS
 router.post('/user/verifyfb',function(req, res){
   User.findOne({
@@ -192,7 +210,7 @@ router.post('/nearby', function(req, res){
    });
 });
 
-router.get('/categories', function(req, res){
+router.get('/prof/categories', function(req, res){
   Category.find({}).then(function(d){
     res.json({categories: d});
   })
