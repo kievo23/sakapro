@@ -192,9 +192,9 @@ router.post('/nearby', function(req, res){
    });
 });
 
-router.get('/category', function(req, res){
+router.get('/categories', function(req, res){
   Category.find({}).then(function(d){
-    res.json(d);
+    res.json({categories: d});
   })
 });
 
