@@ -199,16 +199,17 @@ router.post('/user/verifyg',function(req, res){
 
 router.post('/nearby', function(req, res){
   var point = { type : "Point", coordinates : [parseFloat(req.body.longitude),parseFloat(req.body.latitude)] };
-  Prof.geoNear(point, { maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
-  populate('jobtype').then(function(error, results){
-    if (error) {
-      console.log("error");
-      res.json(error);
-    }
-      //console.log(JSON.stringify(results, 0, 2));
-      else{
-        res.json({nearby: results});
-      }
+  Prof.geoNear(point,{ maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
+  .then(function(results){
+    results = results.map(function(x) {
+      var a = new Prof( x.obj );
+      a.dis = x.dis;
+      return a;
+    });
+    Prof.populate( results, { path: "jobtype" }, function(err,docs) {
+      if (err) throw err;
+      res.json({ nearby: docs });
+    });
    });
 });
 

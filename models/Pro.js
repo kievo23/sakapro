@@ -20,6 +20,7 @@ const profSchema = new Schema({
 		   type: { type: String },
 		   coordinates: [Number]
 	  },
+		dis: String,
     idno: { type: String, index: { unique: true, sparse: true }},
     jobtype: { type: Schema.Types.ObjectId, ref: 'Category' },
 		otp: String
