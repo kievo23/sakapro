@@ -15,6 +15,7 @@ const profSchema = new Schema({
 		email: { type: String, index: { unique: true, sparse: true }},
     pin: String,
     dob: String,
+		locationname: String,
 		location: {
 		   type: { type: String },
 		   coordinates: [Number]

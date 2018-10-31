@@ -112,6 +112,7 @@ router.post('/prof/create',function(req, res){
     email: req.body.email,
     pin: req.body.pin,
     idno: req.body.idno,
+    locationname: req.body.locationname,
     jobtype: req.body.jobtype,
     location: {type: "Point", coordinates: [ req.body.longitude, req.body.latitude ] },
     otp: code
@@ -198,14 +199,15 @@ router.post('/user/verifyg',function(req, res){
 
 router.post('/nearby', function(req, res){
   var point = { type : "Point", coordinates : [parseFloat(req.body.longitude),parseFloat(req.body.latitude)] };
-  Prof.geoNear(point, { maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 }).then(function(error, results){
+  Prof.geoNear(point, { maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
+  populate('jobtype').then(function(error, results){
     if (error) {
       console.log("error");
       res.json(error);
     }
       //console.log(JSON.stringify(results, 0, 2));
       else{
-        res.json(results);
+        res.json({nearby: results});
       }
    });
 });
