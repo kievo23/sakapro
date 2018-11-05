@@ -1,0 +1,47 @@
+extends ../layout
+block content 
+  // MAIN CONTENT
+  .main-content
+    .section__content.section__content--p30
+      .container-fluid
+        .row
+          .col-md-12
+            // DATA TABLE
+            a.btn.btn-success(href='/users/create')
+              | Create User
+            .table-responsive.table-responsive-data2
+              table.table.table-data2
+                thead
+                  tr
+                    th NO.
+                    th NAMES
+                    th PHONE
+                    th JOB TYPE
+                    th Email
+                    th ACTIONS
+                tbody
+                  if(profs)
+                    each user, i in profs
+                      tr.tr-shadow
+                        td
+                          =i+1
+                        td 
+                          =user.names
+                        td 
+                          =user.phone
+                        td 
+                          =user.occupation
+                        td
+                          =user.email
+                        td
+                          td
+                            .table-data-feature
+                              a(href="/users/makeadmin/"+user.id, title="Make admin")
+                                button.item(data-toggle='tooltip' data-placement='top' title='Make Admin')
+                                  i.zmdi.zmdi-account-box
+                              a(href="/admin/user/delete/"+user.id, title="Delete User")
+                                button.item(data-toggle='tooltip' data-placement='top' title='Delete')
+                                  i.zmdi.zmdi-delete
+                        
+                        
+                    tr.spacer

@@ -15,6 +15,7 @@ const profSchema = new Schema({
 		email: { type: String, index: { unique: true, sparse: true }},
     pin: String,
     dob: String,
+		ocupation: String,
 		locationname: String,
 		location: {
 		   type: { type: String },
@@ -23,7 +24,8 @@ const profSchema = new Schema({
 		dis: String,
     idno: { type: String, index: { unique: true, sparse: true }},
     jobtype: { type: Schema.Types.ObjectId, ref: 'Category' },
-		otp: String
+		otp: String,
+		approved: Boolean
 });
 
 profSchema.index({ location: "2dsphere" });

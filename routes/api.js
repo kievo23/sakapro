@@ -111,6 +111,7 @@ router.post('/prof/create',function(req, res){
     dob: req.body.dob,
     email: req.body.email,
     pin: req.body.pin,
+    occupation: req.body.occupation,
     idno: req.body.idno,
     locationname: req.body.locationname,
     jobtype: req.body.jobtype,
@@ -198,6 +199,22 @@ router.post('/user/verifyg',function(req, res){
 });
 
 router.post('/nearby', function(req, res){
+  var point = { type : "Point", coordinates : [parseFloat(req.body.longitude),parseFloat(req.body.latitude)] };
+  Prof.geoNear(point,{ maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
+  .then(function(results){
+    results = results.map(function(x) {
+      var a = new Prof( x.obj );
+      a.dis = x.dis;
+      return a;
+    });
+    Prof.populate( results, { path: "jobtype" }, function(err,docs) {
+      if (err) throw err;
+      res.json({ nearby: docs });
+    });
+   });
+});
+
+router.post('/filter/nearby', function(req, res){
   var point = { type : "Point", coordinates : [parseFloat(req.body.longitude),parseFloat(req.body.latitude)] };
   Prof.geoNear(point,{ maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
   .then(function(results){
