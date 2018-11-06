@@ -5,23 +5,68 @@ var slug = require('slug');
 var User = require(__dirname + '/../models/User');
 var Prof = require(__dirname + '/../models/Pro');
 var Category = require(__dirname + '/../models/Category');
+var Group = require(__dirname + '/../models/Group');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  Category.find({}).then(function(d){
+  Category.find({}).populate('group').then(function(d){
     console.log(d);
     res.render('categories/index',{categories: d});
   });
 });
 
+//  GROUP
+router.get('/group/create',function(req, res){
+  res.render('group/create');
+});
+
 router.get('/create',function(req, res){
-  res.render('categories/create');
+  Group.find({}).then(function(d){
+    res.render('categories/create',{groups: d});
+  });
+});
+
+router.get('/edit/:id',function(req, res){
+  var groups = Group.find({});
+  var category = Category.findById(req.params.id).populate('group');
+  Promise.all([category,groups]).then(values => {
+    res.render('categories/edit',{category: values[0], groups: values[1]});
+  });
+});
+
+router.post('/edit/:id',function(req, res){
+  var category = Category.findById(req.params.id).populate('group').then(function(category){
+    category.name = req.body.name;
+    category.price = req.body.price;
+    category.group = req.body.group;
+    category.slug = slug(req.body.name);
+    category.save(function(err){
+      if(err) throw console.log(err);
+      res.redirect('/category');
+    });
+  });
 });
 
 router.post('/create',function(req, res){
-  Category.create({
+  Group.findById(req.body.group).then(function(cat){
+    Category.create({
+      name : req.body.name,
+      group: req.body.group,
+      slug : slug(req.body.name)
+    },function(err, category){
+      if(err){
+        console.log(err);
+        res.redirect('/category/create');
+      }else{
+        res.redirect('/category');
+      }
+    });
+  });
+});
+
+router.post('/group/create',function(req, res){
+  Group.create({
     name : req.body.name,
-    price: req.body.price,
     slug : slug(req.body.name)
   },function(err, category){
     if(err){

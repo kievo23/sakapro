@@ -9,6 +9,8 @@ block content
             // DATA TABLE
             a.btn.btn-success(href='/category/create')
               | Create Category
+            a.btn.btn-success(href='/category/group/create')
+              | Create Group
             .table-responsive.table-responsive-data2
               table.table.table-data2
                 thead
@@ -16,6 +18,7 @@ block content
                     th NO.
                     th NAME
                     th PRICE
+                    th GROUP
                     th ACTIONS
                 tbody
                   each cat, i in categories
@@ -26,8 +29,14 @@ block content
                         =cat.name
                       td 
                         =cat.price
+                      td 
+                        if(cat.group)
+                          =cat.group.name
                       td
                         .table-data-feature
-                          a(href="/admin/user/delete/"+cat.id, title="Delete User")
+                          a(href="/category/edit/"+cat.id, title="Delete User")
                             button.item(data-toggle='tooltip' data-placement='top' title='Delete')
-                              i.zmdi.zmdi-delete
+                              i.ti-pencil
+                          a(href="/category/delete/"+cat.id, title="Delete User")
+                            button.item(data-toggle='tooltip' data-placement='top' title='Delete')
+                              i.ti-close

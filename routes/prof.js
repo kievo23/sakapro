@@ -4,7 +4,9 @@ var Prof = require(__dirname + '/../models/Pro');
 
 /* GET profs listing. */
 router.get('/', function(req, res, next) {
-  Prof.find({}).then(function(d){
-    res.render('profs/index',{users: d});
+  Prof.find({}).populate('jobtype').then(function(d){
+    res.render('profs/index',{profs: d});
   });
 });
+
+module.exports = router;

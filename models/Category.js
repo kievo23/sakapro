@@ -13,6 +13,7 @@ const catSchema = new Schema({
 			type: String,
 			unique: true
 		},
+		group: { type: Schema.Types.ObjectId, ref: 'Group' },
 		price: String
 });
 
