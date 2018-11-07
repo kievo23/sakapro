@@ -38,7 +38,7 @@ router.get('/delete/:id', function(req, res){
     if(err) { throw err; }
     // ...
     res.redirect('/profs');
-  }
+  });
 });
 
 router.post('/edit/:id',function(req, res){
