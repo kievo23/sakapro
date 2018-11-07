@@ -219,9 +219,11 @@ router.post('/filter/nearby', function(req, res){
   Prof.geoNear(point,{ maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
   .then(function(results){
     results = results.map(function(x) {
-      var a = new Prof( x.obj );
-      a.dis = x.dis;
-      return a;
+      if(a.approved == true){
+        var a = new Prof( x.obj );
+        a.dis = x.dis;
+        return a;
+      }
     });
     Prof.populate( results, { path: "jobtype" }, function(err,docs) {
       if (err) throw err;

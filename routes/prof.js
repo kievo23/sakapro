@@ -27,4 +27,28 @@ router.get('/approve/:id',function(req, res){
   });
 });
 
+router.get('/update/:id', function(req, res){
+  var prof = Prof.findById(req.params.id).then(function(prof){
+    res.render('prof/update',{prof: prof});
+  });
+});
+
+router.get('/delete/:id', function(req, res){
+  var prof = Prof.findByIdAndRemove(req.params.id, function (err,offer){
+    if(err) { throw err; }
+    // ...
+    res.redirect('/profs');
+  }
+});
+
+router.post('/edit/:id',function(req, res){
+  var prof = Prof.findById(req.params.id).then(function(category){
+    prof.name = req.body.name;
+    prof.save(function(err){
+      if(err) throw console.log(err);
+      res.redirect('/category');
+    });
+  });
+});
+
 module.exports = router;
