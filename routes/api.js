@@ -238,4 +238,10 @@ router.get('/prof/categories', function(req, res){
   })
 });
 
+router.get('/prof/groups', function(req, res){
+  groups.find({}).then(function(d){
+    res.json({groups: d});
+  })
+});
+
 module.exports = router;
