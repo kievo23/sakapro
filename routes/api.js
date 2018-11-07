@@ -220,6 +220,24 @@ router.post('/filter/nearby', function(req, res){
   Prof.geoNear(point,{ maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
   .then(function(results){
     results = results.map(function(x) {
+      if(a.approved == true && a.jobtype == req.body.jobtype){
+        var a = new Prof( x.obj );
+        a.dis = x.dis;
+        return a;
+      }
+    });
+    Prof.populate( results, { path: "jobtype" }, function(err,docs) {
+      if (err) throw err;
+      res.json({ nearby: docs });
+    });
+   });
+});
+
+router.post('/nearby', function(req, res){
+  var point = { type : "Point", coordinates : [parseFloat(req.body.longitude),parseFloat(req.body.latitude)] };
+  Prof.geoNear(point,{ maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
+  .then(function(results){
+    results = results.map(function(x) {
       if(a.approved == true){
         var a = new Prof( x.obj );
         a.dis = x.dis;
