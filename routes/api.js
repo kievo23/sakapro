@@ -6,6 +6,7 @@ var request = require("request");
 var User = require(__dirname + '/../models/User');
 var Prof = require(__dirname + '/../models/Pro');
 var Category = require(__dirname + '/../models/Category');
+var Group = require(__dirname + '/../models/Group');
 
 router.post('/user/create',function(req, res){
   var code = Math.floor((Math.random() * 9000) + 1000);
@@ -239,7 +240,7 @@ router.get('/prof/categories', function(req, res){
 });
 
 router.get('/prof/groups', function(req, res){
-  groups.find({}).then(function(d){
+  Group.find({}).then(function(d){
     res.json({groups: d});
   })
 });
