@@ -37,7 +37,7 @@ router.get('/delete/:id', function(req, res){
   var prof = Prof.findByIdAndRemove(req.params.id, function (err,offer){
     if(err) { throw err; }
     // ...
-    res.redirect('/profs');
+    res.redirect('/prof');
   });
 });
 
