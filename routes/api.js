@@ -220,7 +220,7 @@ router.post('/filter/nearby', function(req, res){
   Prof.geoNear(point,{ maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
   .then(function(results){
     results = results.map(function(x) {
-      if(x.obj.approved == true && x.obj.jobtype.slug == req.body.jobtype){
+      if(x.obj.approved == true && x.obj.jobtype == req.body.jobtype){
         var a = new Prof( x.obj );
         a.dis = x.dis;
         return a;
