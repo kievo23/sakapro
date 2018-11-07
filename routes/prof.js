@@ -9,4 +9,22 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/approve/:id',function(req, res){
+  Prof.findById(req.params.id).then(function(prof){
+      if(prof.approved == true){
+        prof.approved = false;
+      }else{
+        prof.approved = true;
+      }
+      prof.save(function(err){
+        if(err){
+          console.log(err);
+          res.redirect('/prof');
+        }else{
+          res.redirect('/prof');
+        }
+      });
+  });
+});
+
 module.exports = router;

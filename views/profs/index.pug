@@ -15,7 +15,8 @@ block content
                     th NAMES
                     th PHONE
                     th JOB TYPE
-                    th EMAIL 
+                    th EMAIL
+                    th APPROVED 
                     th ACTIONS
                 tbody
                   if(profs)
@@ -33,9 +34,19 @@ block content
                         td
                           =user.email
                         td
+                          =user.approved
+                        td
                           td
                             .table-data-feature
-                              a(href="/users/makeadmin/"+user.id, title="Make admin")
+                              if(user.approved == true)
+                                a(href="/prof/approve/"+user.id, title="Disapprove")
+                                  button.item(data-toggle='tooltip' data-placement='top' title='Disapprove')
+                                    i.ti-minus
+                              else 
+                                a(href="/prof/approve/"+user.id, title="Approve")
+                                  button.item(data-toggle='tooltip' data-placement='top' title='Approve')
+                                    i.ti-check
+                              a(href="/users/makeadmin/"+user.id, title="Edit")
                                 button.item(data-toggle='tooltip' data-placement='top' title='Make Admin')
                                   i.ti-pencil
                               a(href="/prof/delete/"+user.id, title="Delete Prof")

@@ -231,7 +231,7 @@ router.post('/filter/nearby', function(req, res){
 });
 
 router.get('/prof/categories', function(req, res){
-  Category.find({}).then(function(d){
+  Category.find({}).populate('group').then(function(d){
     res.json({categories: d});
   })
 });
