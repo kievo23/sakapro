@@ -216,15 +216,25 @@ router.post('/nearby', function(req, res){
 });
 
 router.post('/filter/nearby', function(req, res){
-  var point = { type : "Point", coordinates : [parseFloat(req.body.longitude),parseFloat(req.body.latitude)] };
-  Prof.geoNear(point,{ maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
+  Prof.aggregate([
+        { "$geoNear": {
+            "near": {
+                "type": "Point",
+                "coordinates": [parseFloat(req.body.longitude),parseFloat(req.body.latitude)]
+            },
+            "distanceField": "distance",
+            "maxDistance": 50000000,
+            "spherical": true,
+            "query": { "loc.type": "Point" }
+        }},
+        { "$sort": { "distance": -1 } } // Sort nearest first
+    ])
   .then(function(results){
+    console.log(results);
     results = results.map(function(x) {
-      if(x.obj.approved == true && x.obj.jobtype == req.body.jobtype){
         var a = new Prof( x.obj );
         a.dis = x.dis;
         return a;
-      }
     });
     Prof.populate( results, { path: "jobtype" }, function(err,docs) {
       if (err) throw err;
