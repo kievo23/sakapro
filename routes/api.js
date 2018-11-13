@@ -228,7 +228,7 @@ router.post('/filter/nearby', function(req, res){
           near: point,
           distanceField: "dist",
           maxDistance: 2000000,
-          //query: { idno: "12355796" },
+          query: { approved: true },
           //includeLocs: "dist.location",
           distanceMultiplier: 0.001,
           spherical: true
@@ -255,6 +255,7 @@ router.post('/nearby', function(req, res){
           distanceField: "dist",
           maxDistance: 2000000,
           //query: { type: "public" },
+          query: { approved: true },
           //includeLocs: "dist.location",
           distanceMultiplier: 0.001,
           spherical: true
