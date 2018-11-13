@@ -2,14 +2,34 @@ var express = require('express');
 var router = express.Router();
 
 var request = require("request");
+var Jimp = require("jimp");
+var slug = require('slug');
+var multer  = require('multer');
+var mime = require('mime');
 
 var User = require(__dirname + '/../models/User');
 var Prof = require(__dirname + '/../models/Pro');
 var Category = require(__dirname + '/../models/Category');
 var Group = require(__dirname + '/../models/Group');
-const mongoose = require('mongoose');
-var sys = require(__dirname + '/../config/System');
-var db = mongoose.connect(sys.db_uri, {useMongoClient: true });
+
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/uploads/')
+  },
+  filename: function (req, file, cb) {
+    var fileName = Date.now() + slug(file.originalname) +'.'+ mime.extension(file.mimetype);
+    cb(null, fileName);
+  }
+});
+
+var upload = multer({ storage: storage });
+var cpUpload = upload.fields([
+  { name: 'photo', maxCount: 1 },
+  { name: 'profile', maxCount: 1 },
+  { name: 'catalog', maxCount: 5 },
+  { name: 'gallery', maxCount: 30 }
+]);
 
 router.post('/user/create',function(req, res){
   var code = Math.floor((Math.random() * 9000) + 1000);
@@ -107,28 +127,61 @@ router.post('/prof/create',function(req, res){
   var code = Math.floor((Math.random() * 9999) + 1000);
   var phone = req.body.phone.replace(/\s+/g, '');
   phone = "254"+phone.substr(phone.length - 9);
-  Prof.create({
-    nickname: req.body.nickname,
-    names : req.body.names,
-    email: req.body.email,
-    phone: phone,
-    dob: req.body.dob,
-    email: req.body.email,
-    pin: req.body.pin,
-    occupation: req.body.occupation,
-    idno: req.body.idno,
-    locationname: req.body.locationname,
-    jobtype: req.body.jobtype,
-    location: {type: "Point", coordinates: [ req.body.longitude, req.body.latitude ] },
-    otp: code
-  },function(err, user){
-    if(err){
-      console.log(err);
-      res.json({code: 101, err: err});
-    }else{
-      res.json({code: 100, user: user});
-    }
-  });
+  var gallery = [];
+  if(req.files['gallery']){
+			//b.gallery = req.files['gallery'];
+      req.files['gallery'].forEach(function(x){
+        gallery.push(x);
+      })
+      //b.gallery.push(req.files['gallery']);
+		}
+    if (req.files['photo']){
+		  b.photo = req.files['photo'][0].filename;
+		}
+    Prof.create({
+      nickname: req.body.nickname,
+      names : req.body.names,
+      email: req.body.email,
+      phone: phone,
+      dob: req.body.dob,
+      email: req.body.email,
+      pin: req.body.pin,
+      occupation: req.body.occupation,
+      idno: req.body.idno,
+      locationname: req.body.locationname,
+      jobtype: req.body.jobtype,
+      gallery: gallery,
+      photo : photo,
+      location: {type: "Point", coordinates: [ req.body.longitude, req.body.latitude ] },
+      otp: code
+    },function(err, user){
+      if(err){
+        console.log(err);
+        res.json({code: 101, err: err});
+      }else{
+        if (req.files['photo']){
+  					Jimp.read("./public/uploads/"+b.photo).then(function (cover) {
+  					    return cover.resize(200, 140)     // resize
+  					         .quality(100)                // set greyscale
+  					         .write("./public/uploads/thumbs/cover"+b.photo); // save
+  					}).catch(function (err) {
+  					    console.error(err);
+  					});
+  				}
+  				if(b.gallery){
+  					b.gallery.forEach(function(gallery) {
+  					  	Jimp.read("./public/uploads/"+gallery.filename).then(function (cover) {
+  						    return cover.resize(200, 140)     // resize
+  						         .quality(100)                // set greyscale
+  						         .write("./public/uploads/thumbs/gallery-"+gallery.filename); // save
+  						}).catch(function (err) {
+  						    console.error(err);
+  						});
+  					});
+  				}
+        res.json({code: 100, user: user});
+      }
+    });
 });
 
 router.post('/prof/verifyotp',function(req, res){
