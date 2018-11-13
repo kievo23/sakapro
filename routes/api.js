@@ -7,6 +7,9 @@ var User = require(__dirname + '/../models/User');
 var Prof = require(__dirname + '/../models/Pro');
 var Category = require(__dirname + '/../models/Category');
 var Group = require(__dirname + '/../models/Group');
+const mongoose = require('mongoose');
+var sys = require(__dirname + '/../config/System');
+var db = mongoose.connect(sys.db_uri, {useMongoClient: true });
 
 router.post('/user/create',function(req, res){
   var code = Math.floor((Math.random() * 9000) + 1000);
@@ -199,6 +202,7 @@ router.post('/user/verifyg',function(req, res){
   });
 });
 
+/*
 router.post('/nearby', function(req, res){
   var point = { type : "Point", coordinates : [parseFloat(req.body.longitude),parseFloat(req.body.latitude)] };
   Prof.geoNear(point,{ maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
@@ -213,53 +217,57 @@ router.post('/nearby', function(req, res){
       res.json({ nearby: docs });
     });
    });
-});
+});*/
+
 
 router.post('/filter/nearby', function(req, res){
+  var point = { type : "Point", coordinates : [parseFloat(req.body.longitude),parseFloat(req.body.latitude)] };
   Prof.aggregate([
-        { "$geoNear": {
-            "near": {
-                "type": "Point",
-                "coordinates": [parseFloat(req.body.longitude),parseFloat(req.body.latitude)]
-            },
-            "distanceField": "distance",
-            "maxDistance": 50000000,
-            "spherical": true,
-            "query": { "loc.type": "Point" }
-        }},
-        { "$sort": { "distance": -1 } } // Sort nearest first
-    ])
-  .then(function(results){
-    console.log(results);
-    results = results.map(function(x) {
-        var a = new Prof( x.obj );
-        a.dis = x.dis;
-        return a;
+     {
+       $geoNear: {
+          near: point,
+          distanceField: "dist",
+          maxDistance: 2000000,
+          //query: { idno: "12355796" },
+          //includeLocs: "dist.location",
+          distanceMultiplier: 0.001,
+          spherical: true
+       }
+     }
+  ]).then(function(results){
+    var results = results.filter(function (el) {
+      return el.jobtype ==  req.body.jobtype;
     });
     Prof.populate( results, { path: "jobtype" }, function(err,docs) {
       if (err) throw err;
       res.json({ nearby: docs });
     });
-   });
+  });
 });
+
 
 router.post('/nearby', function(req, res){
   var point = { type : "Point", coordinates : [parseFloat(req.body.longitude),parseFloat(req.body.latitude)] };
-  Prof.geoNear(point,{ maxDistance : 5000000, spherical : true, distanceMultiplier: 0.001 })
-  .then(function(results){
-    results = results.map(function(x) {
-      if(x.obj.approved == true){
-        var a = new Prof( x.obj );
-        a.dis = x.dis;
-        return a;
-      }
-    });
+  Prof.aggregate([
+     {
+       $geoNear: {
+          near: point,
+          distanceField: "dist",
+          maxDistance: 2000000,
+          //query: { type: "public" },
+          //includeLocs: "dist.location",
+          distanceMultiplier: 0.001,
+          spherical: true
+       }
+     }
+  ]).then(function(results){
     Prof.populate( results, { path: "jobtype" }, function(err,docs) {
       if (err) throw err;
       res.json({ nearby: docs });
     });
-   });
+  });
 });
+
 
 router.get('/prof/categories', function(req, res){
   Category.find({}).populate('group').then(function(d){

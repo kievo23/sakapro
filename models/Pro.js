@@ -18,7 +18,7 @@ const profSchema = new Schema({
 		ocupation: String,
 		locationname: String,
 		location: {
-		   type: { type: String },
+		   type: { type: String,default: 'Point', enum: ['Point'] },
 		   coordinates: [Number]
 	  },
 		dis: String,
