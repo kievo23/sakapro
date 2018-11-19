@@ -152,11 +152,11 @@ router.post('/prof/update/:id',function(req, res){
         }
         if(p.gallery){
           p.gallery.forEach(function(gallery) {
-              Jimp.read("./public/uploads/"+gallery.filename).then(function (cover) {
+              Jimp.read("./public/uploads/profs/"+gallery.filename).then(function (cover) {
                 return cover.resize(200, 140)     // resize
                      .quality(100)                 // set JPEG quality
                      .greyscale()                 // set greyscale
-                     .write("./public/uploads/profs/"+gallery.filename); // save
+                     .write("./public/uploads/profs/thumbs/"+gallery.filename); // save
             }).catch(function (err) {
                 console.error(err);
             });
@@ -195,20 +195,20 @@ router.post('/prof/create',function(req, res){
         res.json({code: 101, err: err});
       }else{
         if (req.files['photo']){
-  					Jimp.read("./public/uploads/"+b.photo).then(function (cover) {
+  					Jimp.read("./public/uploads/profs/"+b.photo).then(function (cover) {
   					    return cover.resize(200, 140)     // resize
   					         .quality(100)                // set greyscale
-  					         .write("./public/uploads/thumbs/cover"+b.photo); // save
+  					         .write("./public/uploads/profs/thumbs/"+b.photo); // save
   					}).catch(function (err) {
   					    console.error(err);
   					});
   				}
   				if(b.gallery){
   					b.gallery.forEach(function(gallery) {
-  					  	Jimp.read("./public/uploads/"+gallery.filename).then(function (cover) {
+  					  	Jimp.read("./public/uploads/profs/"+gallery.filename).then(function (cover) {
   						    return cover.resize(200, 140)     // resize
   						         .quality(100)                // set greyscale
-  						         .write("./public/uploads/thumbs/gallery-"+gallery.filename); // save
+  						         .write("./public/uploads/profs/thumbs/"+gallery.filename); // save
   						}).catch(function (err) {
   						    console.error(err);
   						});
