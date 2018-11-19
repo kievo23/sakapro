@@ -18,7 +18,7 @@ var storage = multer.diskStorage({
     cb(null, './public/uploads/')
   },
   filename: function (req, file, cb) {
-    var fileName = Date.now() + slug(file.originalname) +'.'+ mime.extension(file.mimetype);
+    var fileName = Date.now() + slug(file.originalname) +'.'+ mime.getExtension(file.mimetype);
     cb(null, fileName);
   }
 });
@@ -34,7 +34,7 @@ var cpUpload = upload.fields([
 router.post('/user/create',function(req, res){
   var code = Math.floor((Math.random() * 9000) + 1000);
   var phone = req.body.phone.replace(/\s+/g, '');
-  phone = "254"+phone.substr(phone.length - 9);
+  phone = "+254"+phone.substr(phone.length - 9);
   User.create({
     names : req.body.names,
     email: req.body.email,
@@ -67,7 +67,7 @@ router.post('/user/create',function(req, res){
 
 router.post('/user/verifyotp',function(req, res){
   var phone = req.body.phone.replace(/\s+/g, '');
-  phone = "254"+phone.substr(phone.length - 9);
+  phone = "+254"+phone.substr(phone.length - 9);
   User.findOne({
     phone: phone,
     otp: req.body.otp
@@ -87,7 +87,7 @@ router.post('/user/verifyotp',function(req, res){
 
 router.post('/user/generateotp',function(req, res){
   var phone = req.body.phone.replace(/\s+/g, '');
-  phone = "254"+phone.substr(phone.length - 9);
+  phone = "+254"+phone.substr(phone.length - 9);
   User.findOne({phone: phone}).then(function(d){
     if(d){
       var code = Math.floor((Math.random() * 9000) + 1000);
@@ -125,14 +125,11 @@ router.post('/user/generateotp',function(req, res){
 
 router.post('/prof/update/:id',cpUpload,function(req, res){
   Prof.findById(req.params.id).then(function(p){
+    //console.log(p);
     var gallery = [];
-    console.log(req.body);
+    //console.log(req.files);
     if(req.files['gallery']){
-  			p.gallery = req.files['gallery'];
-        req.files['gallery'].forEach(function(x){
-          gallery.push(x);
-        })
-        //b.gallery.push(req.files['gallery']);
+        p.gallery.push(req.files['gallery']);
 		}
     if (req.files['photo']){
 		  p.photo = req.files['photo'][0].filename;
@@ -172,7 +169,7 @@ router.post('/prof/update/:id',cpUpload,function(req, res){
 router.post('/prof/create',cpUpload,function(req, res){
   var code = Math.floor((Math.random() * 9999) + 1000);
   var phone = req.body.phone.replace(/\s+/g, '');
-  phone = "254"+phone.substr(phone.length - 9);
+  phone = "+254"+phone.substr(phone.length - 9);
 
     Prof.create({
       nickname: req.body.nickname,
@@ -186,8 +183,6 @@ router.post('/prof/create',cpUpload,function(req, res){
       idno: req.body.idno,
       locationname: req.body.locationname,
       jobtype: req.body.jobtype,
-      gallery: gallery,
-      photo : photo,
       location: {type: "Point", coordinates: [ req.body.longitude, req.body.latitude ] },
       otp: code
     },function(err, user){
@@ -195,26 +190,6 @@ router.post('/prof/create',cpUpload,function(req, res){
         console.log(err);
         res.json({code: 101, err: err});
       }else{
-        if (req.files['photo']){
-  					Jimp.read("./public/uploads/profs/"+b.photo).then(function (cover) {
-  					    return cover.resize(200, 140)     // resize
-  					         .quality(100)                // set greyscale
-  					         .write("./public/uploads/profs/thumbs/"+b.photo); // save
-  					}).catch(function (err) {
-  					    console.error(err);
-  					});
-  				}
-  				if(b.gallery){
-  					b.gallery.forEach(function(gallery) {
-  					  	Jimp.read("./public/uploads/profs/"+gallery.filename).then(function (cover) {
-  						    return cover.resize(200, 140)     // resize
-  						         .quality(100)                // set greyscale
-  						         .write("./public/uploads/profs/thumbs/"+gallery.filename); // save
-  						}).catch(function (err) {
-  						    console.error(err);
-  						});
-  					});
-  				}
         res.json({code: 100, user: user});
       }
     });

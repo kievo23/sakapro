@@ -15,6 +15,8 @@ const profSchema = new Schema({
 		email: { type: String, index: { unique: true, sparse: true }},
     pin: String,
     dob: String,
+		gallery: Array,
+		photo: String,
 		ocupation: String,
 		locationname: String,
 		location: {
