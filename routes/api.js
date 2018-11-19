@@ -145,7 +145,7 @@ router.post('/prof/update/:id',function(req, res){
           Jimp.read("./public/uploads/"+p.photo).then(function (cover) {
             return cover.resize(200, 140)     // resize
                .quality(100)                // set greyscale
-               .write("./public/uploads/profs/"+p.photo); // save
+               .write("./public/uploads/profs/thumbs/"+p.photo); // save
           }).catch(function (err) {
             console.error(err);
           });
