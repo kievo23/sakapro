@@ -123,21 +123,56 @@ router.post('/user/generateotp',function(req, res){
   });
 });
 
+router.post('/prof/update/:id',function(req, res){
+  Prof.findById(req.params.id).then(function(p){
+    var gallery = [];
+    if(req.files['gallery']){
+  			p.gallery = req.files['gallery'];
+        req.files['gallery'].forEach(function(x){
+          gallery.push(x);
+        })
+        //b.gallery.push(req.files['gallery']);
+		}
+    if (req.files['photo']){
+		  p.photo = req.files['photo'][0].filename;
+		}
+    p.save(function(err){
+      if(err){
+        console.log("err");
+        res.json({code:101, msg: "error happened"});
+      }else{
+        if (req.files['photo']){
+          Jimp.read("./public/uploads/"+p.photo).then(function (cover) {
+            return cover.resize(200, 140)     // resize
+               .quality(100)                // set greyscale
+               .write("./public/uploads/profs/"+p.photo); // save
+          }).catch(function (err) {
+            console.error(err);
+          });
+        }
+        if(p.gallery){
+          p.gallery.forEach(function(gallery) {
+              Jimp.read("./public/uploads/"+gallery.filename).then(function (cover) {
+                return cover.resize(200, 140)     // resize
+                     .quality(100)                 // set JPEG quality
+                     .greyscale()                 // set greyscale
+                     .write("./public/uploads/profs/"+gallery.filename); // save
+            }).catch(function (err) {
+                console.error(err);
+            });
+          });
+        }
+        res.json({code:100, msg: "Changes made"});
+      }
+    });
+  })
+});
+
 router.post('/prof/create',function(req, res){
   var code = Math.floor((Math.random() * 9999) + 1000);
   var phone = req.body.phone.replace(/\s+/g, '');
   phone = "254"+phone.substr(phone.length - 9);
-  var gallery = [];
-  if(req.files['gallery']){
-			//b.gallery = req.files['gallery'];
-      req.files['gallery'].forEach(function(x){
-        gallery.push(x);
-      })
-      //b.gallery.push(req.files['gallery']);
-		}
-    if (req.files['photo']){
-		  b.photo = req.files['photo'][0].filename;
-		}
+
     Prof.create({
       nickname: req.body.nickname,
       names : req.body.names,
@@ -280,7 +315,7 @@ router.post('/filter/nearby', function(req, res){
        $geoNear: {
           near: point,
           distanceField: "dist",
-          maxDistance: 2000000,
+          maxDistance: 500000,
           query: { approved: true },
           //includeLocs: "dist.location",
           distanceMultiplier: 0.001,
@@ -306,22 +341,21 @@ router.post('/nearby', function(req, res){
        $geoNear: {
           near: point,
           distanceField: "dist",
-          maxDistance: 2000000,
+          maxDistance: 500000,
           //query: { type: "public" },
           query: { approved: true },
           //includeLocs: "dist.location",
           distanceMultiplier: 0.001,
-          spherical: true
+          spherical : true
        }
      }
   ]).then(function(results){
-    Prof.populate( results, { path: "jobtype" }, function(err,docs) {
+    Prof.populate( results, { path: "jobtype" }, function(err, docs) {
       if (err) throw err;
       res.json({ nearby: docs });
     });
   });
 });
-
 
 router.get('/prof/categories', function(req, res){
   Category.find({}).populate('group').then(function(d){
