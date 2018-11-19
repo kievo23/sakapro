@@ -126,6 +126,7 @@ router.post('/user/generateotp',function(req, res){
 router.post('/prof/update/:id',cpUpload,function(req, res){
   Prof.findById(req.params.id).then(function(p){
     var gallery = [];
+    console.log(req.body);
     if(req.files['gallery']){
   			p.gallery = req.files['gallery'];
         req.files['gallery'].forEach(function(x){
@@ -314,7 +315,7 @@ router.post('/filter/nearby', function(req, res){
      {
        $geoNear: {
           near: point,
-          distanceField: "dist",
+          distanceField: "dis",
           maxDistance: 500000,
           query: { approved: true },
           //includeLocs: "dist.location",
@@ -340,7 +341,7 @@ router.post('/nearby', function(req, res){
      {
        $geoNear: {
           near: point,
-          distanceField: "dist",
+          distanceField: "dis",
           maxDistance: 500000,
           //query: { type: "public" },
           query: { approved: true },
