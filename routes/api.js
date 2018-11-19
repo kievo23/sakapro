@@ -123,7 +123,7 @@ router.post('/user/generateotp',function(req, res){
   });
 });
 
-router.post('/prof/update/:id',function(req, res){
+router.post('/prof/update/:id',cpUpload,function(req, res){
   Prof.findById(req.params.id).then(function(p){
     var gallery = [];
     if(req.files['gallery']){
@@ -168,7 +168,7 @@ router.post('/prof/update/:id',function(req, res){
   })
 });
 
-router.post('/prof/create',function(req, res){
+router.post('/prof/create',cpUpload,function(req, res){
   var code = Math.floor((Math.random() * 9999) + 1000);
   var phone = req.body.phone.replace(/\s+/g, '');
   phone = "254"+phone.substr(phone.length - 9);
