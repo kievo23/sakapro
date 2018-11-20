@@ -339,10 +339,22 @@ router.get('/prof/categories', function(req, res){
   })
 });
 
-router.get('/prof/groups', function(req, res){
-  Group.find({}).then(function(d){
-    res.json({groups: d});
-  })
+router.get('/prof/groups', async(req, res) => {
+  var groups = Group.find({});
+  var categories = Category.find({});
+  Promise.all([groups, categories]).then(values => {
+    //console.log(values[0]);
+    for (var i = 0; i < values[0].length; i++) {
+      for (var j = 0; j < values[1].length; j++) {
+        if(values[0][i].id == values[1][j].group){
+          values[0][i].children.push(values[1][j]);
+        }
+      }
+    }
+    console.log(values[0]);
+    res.json({groups: values[0]});
+  });
+
 });
 
 module.exports = router;
