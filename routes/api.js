@@ -160,7 +160,7 @@ router.post('/prof/update/:id',cpUpload,function(req, res){
             });
           });
         }
-        res.json({code:100, msg: "Changes made"});
+        res.json({code:100, msg: "Changes made",user:p});
       }
     });
   })
