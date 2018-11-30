@@ -128,14 +128,16 @@ router.post('/prof/update/:id',cpUpload,function(req, res){
     var gallery = [];
     //console.log(req.files);
     if(req.files['gallery']){
-        p.gallery.push(req.files['gallery']);
+      req.files['gallery'].forEach(function(x){
+        p.gallery.push(x);
+      });
 		}
     if (req.files['photo']){
 		  p.photo = req.files['photo'][0].filename;
 		}
     p.save(function(err){
       if(err){
-        console.log("err");
+        console.log(err);
         res.json({code:101, msg: "error happened"});
       }else{
         if (req.files['photo']){
