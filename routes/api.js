@@ -122,16 +122,9 @@ router.post('/user/generateotp',function(req, res){
   });
 });
 
-router.post('/prof/update/:id',cpUpload,function(req, res){
+router.post('/prof/uploadProfilePhoto/:id',cpUpload,function(req, res){
   Prof.findById(req.params.id).then(function(p){
     //console.log(p);
-    var gallery = [];
-    //console.log(req.files);
-    if(req.files['gallery']){
-      req.files['gallery'].forEach(function(x){
-        p.gallery.push(x);
-      });
-		}
     if (req.files['photo']){
 		  p.photo = req.files['photo'][0].filename;
 		}
@@ -149,6 +142,27 @@ router.post('/prof/update/:id',cpUpload,function(req, res){
             console.error(err);
           });
         }
+        res.json({code:100, msg: "Changes made",user:p.photo});
+      }
+    });
+  })
+});
+
+router.post('/prof/uploadGalleryPhoto/:id',cpUpload,function(req, res){
+  Prof.findById(req.params.id).then(function(p){
+    //console.log(p);
+    var gallery = [];
+    //console.log(req.files);
+    if(req.files['gallery']){
+      req.files['gallery'].forEach(function(x){
+        p.gallery.push(x);
+      });
+		}
+    p.save(function(err){
+      if(err){
+        console.log(err);
+        res.json({code:101, msg: "error happened"});
+      }else{
         if(p.gallery){
           p.gallery.forEach(function(gallery) {
               Jimp.read("./public/uploads/"+gallery.filename).then(function (cover) {
@@ -160,7 +174,7 @@ router.post('/prof/update/:id',cpUpload,function(req, res){
             });
           });
         }
-        res.json({code:100, msg: "Changes made",user:p});
+        res.json({code:100, msg: "Changes made",user:p.gallery});
       }
     });
   })
