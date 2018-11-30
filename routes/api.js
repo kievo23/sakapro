@@ -12,7 +12,6 @@ var Prof = require(__dirname + '/../models/Pro');
 var Category = require(__dirname + '/../models/Category');
 var Group = require(__dirname + '/../models/Group');
 
-
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './public/uploads/')
@@ -150,10 +149,9 @@ router.post('/prof/update/:id',cpUpload,function(req, res){
         }
         if(p.gallery){
           p.gallery.forEach(function(gallery) {
-              Jimp.read("./public/uploads/profs/"+gallery.filename).then(function (cover) {
+              Jimp.read("./public/uploads/"+gallery.filename).then(function (cover) {
                 return cover.resize(200, 140)     // resize
                      .quality(100)                 // set JPEG quality
-                     .greyscale()                 // set greyscale
                      .write("./public/uploads/profs/thumbs/"+gallery.filename); // save
             }).catch(function (err) {
                 console.error(err);
