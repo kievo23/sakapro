@@ -142,7 +142,7 @@ router.post('/prof/uploadProfilePhoto/:id',cpUpload,function(req, res){
             console.error(err);
           });
         }
-        res.json({code:100, msg: "Changes made",user:p.photo});
+        res.json({code:100, msg: "Changes made",profilePhoto:p.photo});
       }
     });
   })
@@ -174,7 +174,7 @@ router.post('/prof/uploadGalleryPhoto/:id',cpUpload,function(req, res){
             });
           });
         }
-        res.json({code:100, msg: "Changes made",user:p.gallery});
+        res.json({code:100, msg: "Changes made",gallery:p.gallery});
       }
     });
   })
