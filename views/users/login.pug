@@ -1,0 +1,29 @@
+extends ../layout-min
+
+block content
+  div.container-fluid
+  #home.parallax-content-list.baner-content-listing-biz
+    .container
+      .div.xxx
+        div.col-12.my-col
+           h3.agile-title.login-title.text-center
+             | SakaPro: Login
+        
+        .div.signup-or-separator.login-form
+          span.h6.signup-or-separator--text
+          
+        form(method="post", action="/login")
+           .form-group.text-center
+              .input-group-addon.form-control.text-center
+                input#exampleInputEmaillog.form-control-form.form-control.text-center(type='text', placeholder='Email address or Username',name='username')
+           .form-group
+              .input-group-addon.form-control.text-center
+                input#exampleInputPasswordpas.form-control-form.form-control.text-center(type='password', placeholder='Password',name='password')
+           .form-group
+             .col-md-12.text-center
+               button.btn.btn-primary.w3ls-btn.text-center(type='submit') Login
+
+          
+        
+             
+        

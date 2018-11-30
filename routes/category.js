@@ -6,9 +6,10 @@ var User = require(__dirname + '/../models/User');
 var Prof = require(__dirname + '/../models/Pro');
 var Category = require(__dirname + '/../models/Category');
 var Group = require(__dirname + '/../models/Group');
+var role = require(__dirname + '/../config/Role');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/',role.auth, function(req, res, next) {
   Category.find({}).populate('group').then(function(d){
     console.log(d);
     res.render('categories/index',{categories: d});
@@ -16,11 +17,11 @@ router.get('/', function(req, res, next) {
 });
 
 //  GROUP
-router.get('/group/create',function(req, res){
+router.get('/group/create',role.auth,function(req, res){
   res.render('group/create');
 });
 
-router.get('/create',function(req, res){
+router.get('/create',role.auth,function(req, res){
   Group.find({}).then(function(d){
     res.render('categories/create',{groups: d});
   });

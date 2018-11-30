@@ -1,15 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var Prof = require(__dirname + '/../models/Pro');
+var role = require(__dirname + '/../config/Role');
 
 /* GET profs listing. */
-router.get('/', function(req, res, next) {
+router.get('/',role.auth, function(req, res, next) {
   Prof.find({}).populate('jobtype').then(function(d){
     res.render('profs/index',{profs: d});
   });
 });
 
-router.get('/approve/:id',function(req, res){
+router.get('/approve/:id',role.auth,function(req, res){
   Prof.findById(req.params.id).then(function(prof){
       if(prof.approved == true){
         prof.approved = false;
