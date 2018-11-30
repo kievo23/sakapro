@@ -155,6 +155,8 @@ router.post('/prof/uploadGalleryPhoto/:id',cpUpload,function(req, res){
     //console.log(req.files);
     if(req.files['gallery']){
       req.files['gallery'].forEach(function(x){
+        x.info = req.body.info;
+        x.date = new Date();
         p.gallery.push(x);
       });
 		}
