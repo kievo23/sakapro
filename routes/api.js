@@ -358,16 +358,22 @@ router.get('/prof/categories', function(req, res){
 router.get('/prof/groups', async(req, res) => {
   var groups = Group.find({});
   var categories = Category.find({});
-  Promise.all([groups, categories]).then(values => {
-    //console.log(values[0]);
+  var profs = Prof.find({});
+  Promise.all([groups, categories, profs]).then(values => {
     for (var i = 0; i < values[0].length; i++) {
       for (var j = 0; j < values[1].length; j++) {
         if(values[0][i].id == values[1][j].group){
+          //values[0][i].children.push(values[1][j]);
+          for(var k = 0; k < values[2].length; k++){
+            if(values[1][j].id == values[2][k].jobtype){
+              values[1][j].profs.push(values[2][k]);
+            }
+          }
           values[0][i].children.push(values[1][j]);
         }
       }
     }
-    console.log(values[0]);
+    //console.log(values[0]);
     res.json({groups: values[0]});
   });
 

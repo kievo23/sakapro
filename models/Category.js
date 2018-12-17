@@ -14,7 +14,8 @@ const catSchema = new Schema({
 			unique: true
 		},
 		group: { type: Schema.Types.ObjectId, ref: 'Group' },
-		price: String
+		price: String,
+		profs: Array
 });
 
 module.exports = mongoose.model('Category', catSchema);
