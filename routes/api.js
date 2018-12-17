@@ -33,7 +33,7 @@ var cpUpload = upload.fields([
 router.post('/user/create',function(req, res){
   var code = Math.floor((Math.random() * 9000) + 1000);
   var phone = req.body.phone.replace(/\s+/g, '');
-  phone = "+254"+phone.substr(phone.length - 9);
+  phone = "254"+phone.substr(phone.length - 9);
   User.create({
     names : req.body.names,
     email: req.body.email,
@@ -66,7 +66,7 @@ router.post('/user/create',function(req, res){
 
 router.post('/user/verifyotp',function(req, res){
   var phone = req.body.phone.replace(/\s+/g, '');
-  phone = "+254"+phone.substr(phone.length - 9);
+  phone = "254"+phone.substr(phone.length - 9);
   User.findOne({
     phone: phone,
     otp: req.body.otp
@@ -86,7 +86,7 @@ router.post('/user/verifyotp',function(req, res){
 
 router.post('/user/generateotp',function(req, res){
   var phone = req.body.phone.replace(/\s+/g, '');
-  phone = "+254"+phone.substr(phone.length - 9);
+  phone = "254"+phone.substr(phone.length - 9);
   User.findOne({phone: phone}).then(function(d){
     if(d){
       var code = Math.floor((Math.random() * 9000) + 1000);
@@ -185,7 +185,7 @@ router.post('/prof/uploadGalleryPhoto/:id',cpUpload,function(req, res){
 router.post('/prof/create',cpUpload,function(req, res){
   var code = Math.floor((Math.random() * 9999) + 1000);
   var phone = req.body.phone.replace(/\s+/g, '');
-  phone = "+254"+phone.substr(phone.length - 9);
+  phone = "254"+phone.substr(phone.length - 9);
 
     Prof.create({
       nickname: req.body.nickname,
