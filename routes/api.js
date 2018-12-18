@@ -286,6 +286,29 @@ router.post('/user/verifyg',function(req, res){
   });
 });
 
+//DELETE PHOTO FROM GALLERY
+router.get('/deletephoto/:id/', function(req, res, next){
+		Prof.findOne({
+		  _id: req.params.id
+		})
+		.then(function(data){
+      var result = data.gallery.filter(function(e, i) {
+        return e.filename != req.query.photo
+      });
+      data.gallery = result;
+      data.save(function(err){
+  			if(err)
+  				res.json({code: 101, msg: err});
+  			res.json({code: 100, msg: "deleted successfully"});
+  		});
+		  //res.redirect('/dashboard');
+		})
+		.catch(function(err){
+		    console.log(err);
+        res.json({code: 100, msg: err});
+		});
+});
+
 /*
 router.post('/nearby', function(req, res){
   var point = { type : "Point", coordinates : [parseFloat(req.body.longitude),parseFloat(req.body.latitude)] };
@@ -371,6 +394,10 @@ router.get('/prof/groups', async(req, res) => {
             if(values[1][j].id == values[2][k].jobtype){
               values[1][j].profs.push(values[2][k]);
             }
+          }
+          if(values[1][j].profs.length == 0){
+            //console.log("zero");
+            delete values[1][j].profs;
           }
           values[0][i].children.push(values[1][j]);
         }
