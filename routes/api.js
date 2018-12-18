@@ -212,8 +212,10 @@ router.post('/prof/create',cpUpload,function(req, res){
 });
 
 router.post('/prof/verifyotp',function(req, res){
+  var phone = req.body.phone.replace(/\s+/g, '');
+  phone = "254"+phone.substr(phone.length - 9);
   Prof.find({
-    phone: req.body.phone,
+    phone: phone,
     otp: req.body.otp
   },function(err, user){
     if(err){
@@ -230,8 +232,10 @@ router.post('/prof/verifyotp',function(req, res){
 });
 
 router.post('/prof/login',function(req, res){
+  var phone = req.body.phone.replace(/\s+/g, '');
+  phone = "254"+phone.substr(phone.length - 9);
   Prof.find({
-    phone: req.body.phone,
+    phone: phone,
     pin: req.body.pin
   },function(err, user){
     if(err){
