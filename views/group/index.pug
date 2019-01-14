@@ -17,6 +17,7 @@ block content
                   tr
                     th NO.
                     th NAME
+                    th PHOTO
                     th ACTIONS
                 tbody
                   each cat, i in groups
@@ -25,6 +26,8 @@ block content
                         =i+1
                       td
                         =cat.name
+                      td
+                        img(src="/uploads/group/thumbs/"+cat.photo,width='100px')
                       td
                         .table-data-feature
                           a(href="/group/edit/"+cat.id, title="Delete Group")

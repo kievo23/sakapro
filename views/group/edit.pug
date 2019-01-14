@@ -1,11 +1,13 @@
 extends ../layout
 block content
-  form(method="post", action="/group/edit/"+group.id)
+  form(method="post", action="/group/edit/"+group.id,enctype='multipart/form-data')
     .c-forms-form(tabindex='0')
       .c-text-singleline.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
         .c-label
           label(for='c-0-220') name
         .c-editor
           input#c-0-220(type='text', placeholder='name',name='name',class='form-control',value=group.name)
+        .c-editor
+          input#c-0-220(type='file', name='photo',class='form-control')
       .c-forms-heading
         input(type="submit", value="Update",class="btn btn-primary")

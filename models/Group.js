@@ -10,6 +10,7 @@ const groupSchema = new Schema({
 		name: String,
     slug: String,
 		children: Array,
+		photo: String
 });
 
 module.exports = mongoose.model('Group', groupSchema);
