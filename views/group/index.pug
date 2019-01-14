@@ -1,0 +1,35 @@
+extends ../layout
+block content
+  // MAIN CONTENT
+  .main-content
+    .section__content.section__content--p30
+      .container-fluid
+        .row
+          .col-md-12
+            // DATA TABLE
+            a.btn.btn-success(href='/category/create')
+              | Create Category
+            a.btn.btn-success(href='/group/create')
+              | Create Group
+            .table-responsive.table-responsive-data2
+              table.table.table-data2
+                thead
+                  tr
+                    th NO.
+                    th NAME
+                    th ACTIONS
+                tbody
+                  each cat, i in groups
+                    tr.tr-shadow
+                      td
+                        =i+1
+                      td
+                        =cat.name
+                      td
+                        .table-data-feature
+                          a(href="/group/edit/"+cat.id, title="Delete Group")
+                            button.item(data-toggle='tooltip' data-placement='top' title='Delete')
+                              i.ti-pencil
+                          a(href="/group/delete/"+cat.id, title="Delete Group")
+                            button.item(data-toggle='tooltip' data-placement='top' title='Delete')
+                              i.ti-close

@@ -79,4 +79,13 @@ router.post('/group/create',function(req, res){
   });
 });
 
+router.get('/delete/:id',role.auth, function(req, res){
+    Category.findByIdAndRemove(req.params.id, (err, todo) => {
+    if(err) {
+      return next(new Error('Todo was not found!'));
+    }
+    res.redirect('/category');
+  })
+});
+
 module.exports = router;
