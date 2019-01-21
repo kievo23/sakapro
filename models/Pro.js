@@ -27,6 +27,7 @@ const profSchema = new Schema({
 		dis: String,
     idno: { type: String, index: { unique: true, sparse: true }},
     jobtype: { type: Schema.Types.ObjectId, ref: 'Category' },
+		call_log: Array,
 		otp: String,
 		approved: Boolean
 });

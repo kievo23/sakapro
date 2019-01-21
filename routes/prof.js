@@ -28,6 +28,12 @@ router.get('/approve/:id',role.auth,function(req, res){
   });
 });
 
+router.get('/view/:id', function(req, res){
+  var prof = Prof.findById(req.params.id).populate('jobtype').then(function(prof){
+    res.render('profs/view',{prof: prof});
+  });
+});
+
 router.get('/update/:id', function(req, res){
   var prof = Prof.findById(req.params.id).then(function(prof){
     res.render('prof/update',{prof: prof});

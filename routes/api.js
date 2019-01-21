@@ -182,6 +182,21 @@ router.post('/prof/uploadGalleryPhoto/:id',cpUpload,function(req, res){
   })
 });
 
+router.post('/prof/call_log/:id',function(req, res){
+  Prof.findById(req.params.id).then(function(p){
+    p.call_log.push(req.body);
+    p.save(function(err){
+      if(err){
+        console.log(err);
+        res.json({code:101, msg: "error happened"});
+      }else{
+        //console.log(p);
+        res.json({code:100, msg: "call logged successfully"});
+      }
+    });
+  });
+});
+
 router.post('/prof/create',cpUpload,function(req, res){
   var code = Math.floor((Math.random() * 9999) + 1000);
   var phone = req.body.phone.replace(/\s+/g, '');

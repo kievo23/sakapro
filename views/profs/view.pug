@@ -1,0 +1,62 @@
+extends ../layout
+block content
+  // MAIN CONTENT
+  .main-content
+    .section__content.section__content--p30
+      .container-fluid
+        .row
+          .col-md-12
+            // DATA TABLE
+            .c-forms-form(tabindex='0')
+              .c-text-singleline.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
+                .row
+                  .author
+                    img.avatar.border-white(src='/uploads/profs/thumbs/'+prof.photo alt='...')
+                    h4.title
+                      =prof.names
+                      br
+                .row
+                  .col-xs-2
+                    label(for='c-0-220') Phone:
+                  .col-xs-6
+                    =prof.phone
+                .row
+                  .col-xs-2
+                    label(for='c-0-220') Email:
+                  .col-xs-6
+                    =prof.email
+                .row
+                  .col-xs-2
+                    label(for='c-0-220') Category:
+                  .col-xs-6
+                    =prof.jobtype.name
+                .row
+                  .col-xs-2
+                    label(for='c-0-220') Date of Birth:
+                  .col-xs-6
+                    =prof.dob
+                .row
+                  .col-xs-2
+                    label(for='c-0-220') Location:
+                  .col-xs-6
+                    =prof.locationname
+                .row
+                  .col-xs-2
+                    label(for='c-0-220') Approved:
+                  .col-xs-6
+                    =prof.approved
+                label(for='c-0-220') Call Log:
+                each log in prof.call_log
+                  .row
+                    .col-xs-2
+                      .c-label
+                        | Caller ID
+                    .col-xs-2
+                      p
+                        =log.caller_id
+                    .col-xs-2
+                      .c-label
+                        | Date
+                    .col-xs-2
+                      p
+                        =log.time

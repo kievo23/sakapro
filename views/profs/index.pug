@@ -1,5 +1,5 @@
 extends ../layout
-block content 
+block content
   // MAIN CONTENT
   .main-content
     .section__content.section__content--p30
@@ -16,7 +16,7 @@ block content
                     th PHONE
                     th JOB TYPE
                     th EMAIL
-                    th APPROVED 
+                    th APPROVED
                     th ACTIONS
                 tbody
                   if(profs)
@@ -24,11 +24,11 @@ block content
                       tr.tr-shadow
                         td
                           =i+1
-                        td 
+                        td
                           =user.names
-                        td 
+                        td
                           =user.phone
-                        td 
+                        td
                           if(user.jobtype)
                             =user.jobtype.name
                         td
@@ -38,17 +38,20 @@ block content
                         td
                           td
                             .table-data-feature
+                              a(href="/prof/view/"+user.id, title="Delete Prof")
+                                button.item(data-toggle='tooltip' data-placement='top' title='Delete')
+                                  i.ti-eye
                               if(user.approved == true)
                                 a(href="/prof/approve/"+user.id, title="Disapprove")
                                   button.item(data-toggle='tooltip' data-placement='top' title='Disapprove')
                                     i.ti-minus
-                              else 
+                              else
                                 a(href="/prof/approve/"+user.id, title="Approve")
                                   button.item(data-toggle='tooltip' data-placement='top' title='Approve')
                                     i.ti-check
                               a(href="/prof/delete/"+user.id, title="Delete Prof")
                                 button.item(data-toggle='tooltip' data-placement='top' title='Delete')
                                   i.ti-close
-                        
-                        
+
+
                     tr.spacer
