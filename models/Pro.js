@@ -24,6 +24,7 @@ const profSchema = new Schema({
 		   type: { type: String,default: 'Point', enum: ['Point'] },
 		   coordinates: [Number]
 	  },
+		reviews: Array,
 		dis: String,
     idno: { type: String, index: { unique: true, sparse: true }},
     jobtype: { type: Schema.Types.ObjectId, ref: 'Category' },

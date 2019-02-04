@@ -148,6 +148,26 @@ router.post('/prof/uploadProfilePhoto/:id',cpUpload,function(req, res){
   })
 });
 
+router.post('/addreview',function(req, res){
+  Prof.findById(req.body.profid).then(function(p){
+    x = {};
+    x.userid = req.body.userid;
+    x.review = req.body.review;
+    x.rate = req.body.rate;
+    x.date = new Date();
+    p.reviews.push(x);
+    p.save(function(err){
+      if(err){
+        console.log(err);
+        res.json({code:101, msg: "error happened"});
+      }else{
+        //console.log(p);
+        res.json({code:100, msg: "Review done successfully"});
+      }
+    });
+  });
+});
+
 router.post('/prof/uploadGalleryPhoto/:id',cpUpload,function(req, res){
   Prof.findById(req.params.id).then(function(p){
     //console.log(p);
@@ -357,12 +377,15 @@ router.post('/filter/nearby', function(req, res){
        }
      }
   ]).then(function(results){
-    var results = results.filter(function (el) {
-      return el.jobtype ==  req.body.jobtype;
+    var results = results.filter(function (el){
+      return el.jobtype == req.body.jobtype;
     });
     Prof.populate( results, { path: "jobtype" }, function(err,docs) {
       if (err) throw err;
-      res.json({ nearby: docs });
+      User.populate( docs, { path: "reviews.userid" }, function(err, rst) {
+        if (err) throw err;
+        res.json({ nearby: rst });
+      });
     });
   });
 });
@@ -386,7 +409,10 @@ router.post('/nearby', function(req, res){
   ]).then(function(results){
     Prof.populate( results, { path: "jobtype" }, function(err, docs) {
       if (err) throw err;
-      res.json({ nearby: docs });
+      User.populate( docs, { path: "reviews.userid" }, function(err, rst) {
+        if (err) throw err;
+        res.json({ nearby: rst });
+      });
     });
   });
 });
