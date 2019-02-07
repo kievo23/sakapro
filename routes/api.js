@@ -278,7 +278,19 @@ router.post('/prof/login',function(req, res){
       res.json({code: 101, err: err});
     }else{
       if(user){
-        res.json({code: 100, data: user});
+        Category.populate( user, { path: "jobtype" }, function(err, usr) {
+          if (err) throw err;
+          User.populate( usr, { path: "reviews.userid" }, function(err, u) {
+            if (err) throw err;
+            User.populate( u, { path: "call_log.callerid" }, function(err, us) {
+              if (err){
+                console.log(err);
+                throw err;
+              }
+              res.json({code: 100, data: us});
+            });
+          });
+        });
       }else{
         res.json({code: 101, msg: "User not found"});
       }
