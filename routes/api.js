@@ -283,10 +283,7 @@ router.post('/prof/login',function(req, res){
           User.populate( usr, { path: "reviews.userid" }, function(err, u) {
             if (err) throw err;
             User.populate( u, { path: "call_log.callerid" }, function(err, us) {
-              if (err){
-                console.log(err);
-                throw err;
-              }
+              if (err) throw err;
               res.json({code: 100, data: us});
             });
           });
