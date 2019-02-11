@@ -30,6 +30,7 @@ const profSchema = new Schema({
     jobtype: { type: Schema.Types.ObjectId, ref: 'Category' },
 		call_log: Array,
 		otp: String,
+		availability: Boolean,
 		approved: Boolean
 });
 

@@ -262,6 +262,22 @@ router.post('/prof/editlocation/:id',function(req, res){
   });
 });
 
+//Edit prof location
+router.post('/prof/availability/:id',function(req, res){
+  Prof.findById(req.params.id).then(function(p){
+    p.availability = req.body.availability;
+    p.save(function(err){
+      if(err){
+        console.log(err);
+        res.json({code:101, msg: "error happened"});
+      }else{
+        //console.log(p);
+        res.json({code:100, msg: "Availability successfully"});
+      }
+    });
+  });
+});
+
 router.post('/prof/verifyotp',function(req, res){
   var phone = req.body.phone.replace(/\s+/g, '');
   phone = "254"+phone.substr(phone.length - 9);
