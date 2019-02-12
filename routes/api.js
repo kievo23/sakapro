@@ -249,6 +249,7 @@ router.post('/prof/create',cpUpload,function(req, res){
 //Edit prof location
 router.post('/prof/editlocation/:id',function(req, res){
   Prof.findById(req.params.id).then(function(p){
+    p.locationname = req.body.locationname;
     p.location = {type: "Point", coordinates: [ req.body.longitude, req.body.latitude ] },
     p.save(function(err){
       if(err){
