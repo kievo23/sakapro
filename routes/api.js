@@ -273,7 +273,7 @@ router.post('/prof/availability/:id',function(req, res){
         res.json({code:101, msg: "error happened"});
       }else{
         //console.log(p);
-        res.json({code:100, msg: "Availability successfully"});
+        res.json({code:100,status: p.availability, msg: "Availability successfully"});
       }
     });
   });
