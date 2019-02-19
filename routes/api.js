@@ -374,11 +374,11 @@ router.post('/deletephoto/:id/', function(req, res, next){
         return e.filename != req.body.photo;
       });
       data.gallery = result;
-      console.log(result);
+      //console.log(result);
       data.save(function(err){
   			if(err)
   				res.json({code: 101, msg: err});
-  			res.json({code: 100, msg: "deleted gallery photo successfully", photo: req.body.photo});
+  			res.json({code: 100, msg: "deleted gallery photo successfully", photo: req.body});
   		});
 		  //res.redirect('/dashboard');
 		})
