@@ -364,13 +364,13 @@ router.post('/user/verifyg',function(req, res){
 });
 
 //DELETE PHOTO FROM GALLERY
-router.get('/deletephoto/:id/', function(req, res, next){
+router.post('/deletephoto/:id/', function(req, res, next){
 		Prof.findOne({
 		  _id: req.params.id
 		})
 		.then(function(data){
       var result = data.gallery.filter(function(e, i) {
-        return e.filename != req.query.photo
+        return e.filename != req.body.photo
       });
       data.gallery = result;
       data.save(function(err){
