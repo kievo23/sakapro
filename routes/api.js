@@ -370,6 +370,7 @@ router.post('/deletephoto/:id/', function(req, res, next){
 		})
 		.then(function(data){
       var result = data.gallery.filter(function(e, i) {
+        console.log(e.filename);
         return e.filename != req.body.photo
       });
       data.gallery = result;
