@@ -371,14 +371,14 @@ router.post('/deletephoto/:id/', function(req, res, next){
 		.then(function(data){
       var result = data.gallery.filter(function(e, i) {
         //console.log(e.filename);
-        return e.filename != req.body.photo
+        return e.filename != req.body.photo;
       });
       data.gallery = result;
       console.log(result);
       data.save(function(err){
   			if(err)
   				res.json({code: 101, msg: err});
-  			res.json({code: 100, msg: "deleted successfully"});
+  			res.json({code: 100, msg: "deleted successfully", photo: req.body.photo});
   		});
 		  //res.redirect('/dashboard');
 		})
