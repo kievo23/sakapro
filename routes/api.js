@@ -378,7 +378,7 @@ router.post('/deletephoto/:id/', function(req, res, next){
       data.save(function(err){
   			if(err)
   				res.json({code: 101, msg: err});
-  			res.json({code: 100, msg: "deleted successfully", photo: req.body.photo});
+  			res.json({code: 100, msg: "deleted gallery photo successfully", photo: req.body.photo});
   		});
 		  //res.redirect('/dashboard');
 		})
