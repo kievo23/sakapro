@@ -364,7 +364,7 @@ router.post('/user/verifyg',function(req, res){
 });
 
 //DELETE PHOTO FROM GALLERY
-router.post('/deletephoto/:id/', function(req, res, next){
+router.post('/deletephoto/:id', function(req, res){
 		Prof.findOne({
 		  _id: req.params.id
 		})
