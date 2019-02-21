@@ -314,11 +314,23 @@ router.post('/prof/login',function(req, res){
         Category.populate( user, { path: "jobtype" }, function(err, usr) {
           if (err) throw err;
           User.populate( usr, { path: "reviews.userid" }, function(err, u) {
-            if (err) throw err;
-            User.populate( u, { path: "call_log.callerid" }, function(err, us) {
-              if (err) throw err;
-              res.json({code: 100, data: us});
-            });
+            if (err) {
+              User.populate( usr, { path: "call_log.callerid" }, function(err, us) {
+                if (err) {
+                  res.json({code: 100, data: usr});
+                }else{
+                  res.json({code: 100, data: us});
+                }
+              });
+            }else{
+              User.populate( u, { path: "call_log.callerid" }, function(err, us) {
+                if (err) {
+                  res.json({code: 100, data: u});
+                }else{
+                  res.json({code: 100, data: us});
+                }
+              });
+            }
           });
         });
       }else{
