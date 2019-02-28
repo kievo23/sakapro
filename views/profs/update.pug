@@ -1,0 +1,32 @@
+extends ../layout
+block content
+  form(method="post", action="/prof/edit/")
+    .c-forms-form(tabindex='1')
+      .c-text-singleline.c-field.c-col-1.c-sml-col-1.c-span-12.c-sml-span-12.c-required
+        .c-label
+          label(for='c-0-220') Name
+        .c-editor
+          input#c-0-220(type='text', placeholder='name', name='name', class='form-control', value=prof.names)
+        .c-label
+          label(for='c-0-221') Phone
+        .c-editor
+          input#c-0-221(type='text', placeholder='phone', name='phone', class='form-control', value=prof.phone)
+        .c-label
+          label(for='c-0-222') Email
+        .c-editor
+          input#c-0-222(type='text', placeholder='email', name='email', class='form-control', value=prof.email)
+        .c-label
+          label(for='c-0-223') Id No
+        .c-editor
+          input#c-0-223(type='text', placeholder='idno', name='idno', class='form-control', value=prof.idno)
+          input#c-0-224(type='hidden', name='id',value=prof.id)
+        .c-label
+          label(for='c-0-224') Category
+        .c-editor
+          select#c-0-224.form-control(name='category')
+            if(prof.jobtype)
+              option(data-icon='ti-pencil', value=prof.jobtype.id)  #{prof.jobtype.name}
+            each cat in category
+              option(data-icon='ti-pencil', value=cat.id) #{cat.name}
+      .c-forms-heading
+        input(type="submit", value="Update",class="btn btn-primary")

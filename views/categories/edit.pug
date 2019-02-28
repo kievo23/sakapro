@@ -13,7 +13,7 @@ block content
           select#c-0-220.form-control(name='group')
                 if(category.group)
                   option(data-icon='ti-flare', value=category.group.id) #{category.group.name}
-                each group in groups 
+                each group in groups
                   option(data-icon='ti-pencil', value=group.id) #{group.name}
       .c-forms-heading
         input(type="submit", value="Submit",class="btn btn-primary")

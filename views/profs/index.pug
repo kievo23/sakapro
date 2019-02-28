@@ -41,6 +41,9 @@ block content
                               a(href="/prof/view/"+user.id, title="Delete Prof")
                                 button.item(data-toggle='tooltip' data-placement='top' title='Delete')
                                   i.ti-eye
+                              a(href="/prof/update/"+user.id, title="Delete Prof")
+                                button.item(data-toggle='tooltip' data-placement='top' title='Edit')
+                                  i.ti-pencil
                               if(user.approved == true)
                                 a(href="/prof/approve/"+user.id, title="Disapprove")
                                   button.item(data-toggle='tooltip' data-placement='top' title='Disapprove')

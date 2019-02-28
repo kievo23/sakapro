@@ -1,5 +1,5 @@
 extends ../layout
-block content 
+block content
   // MAIN CONTENT
   .main-content
     .section__content.section__content--p30
@@ -25,17 +25,17 @@ block content
                     tr.tr-shadow
                       td
                         =i+1
-                      td 
+                      td
                         =cat.name
-                      td 
+                      td
                         =cat.price
-                      td 
+                      td
                         if(cat.group)
                           =cat.group.name
                       td
                         .table-data-feature
                           a(href="/category/edit/"+cat.id, title="Delete User")
-                            button.item(data-toggle='tooltip' data-placement='top' title='Delete')
+                            button.item(data-toggle='tooltip' data-placement='top' title='Edit')
                               i.ti-pencil
                           a(href="/category/delete/"+cat.id, title="Delete User")
                             button.item(data-toggle='tooltip' data-placement='top' title='Delete')

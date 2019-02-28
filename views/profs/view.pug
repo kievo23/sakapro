@@ -25,11 +25,12 @@ block content
                     label(for='c-0-220') Email:
                   .col-xs-6
                     =prof.email
-                .row
-                  .col-xs-2
-                    label(for='c-0-220') Category:
-                  .col-xs-6
-                    =prof.jobtype.name
+                if(prof.jobtype)
+                  .row
+                    .col-xs-2
+                      label(for='c-0-220') Category:
+                    .col-xs-6
+                      =prof.jobtype.name
                 .row
                   .col-xs-2
                     label(for='c-0-220') Date of Birth:
