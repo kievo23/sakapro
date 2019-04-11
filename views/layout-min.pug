@@ -25,6 +25,24 @@ html(lang='en')
 
         .content
           .container-fluid
+            - if(msgerror.length)
+              .alert.alert-danger
+                =msgerror
+            if msginfo.length
+              .alert.alert-info 
+                =msginfo 
+            if msgsuccess.length 
+              .alert.alert-success 
+                =msgsuccess
+            if msgprimary.length
+              .alert.alert-primary 
+                =msgprimary
+            if msgwarning.length
+              .alert.alert-warning
+                =msgwarning
+            if msgdefault.length 
+              .alert.alert-default
+                =msgdefault
             block content
         footer.footer
           .container-fluid

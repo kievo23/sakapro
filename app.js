@@ -18,6 +18,8 @@ var catRouter = require('./routes/category');
 var profRouter = require('./routes/prof');
 var groupRouter = require('./routes/group');
 
+const User = require('./models/User');
+
 var app = express();
 
 // view engine setup
@@ -48,9 +50,10 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  //User.findById(id).then(function(user){
-    done(null, {id: "1",username: "sakapro",password: "$2y$10$ZrutfEDj.84ey3jgnSEsz.N25DnNKKwRg60CR9oDU5o2vsY6119rG"});
-  //});
+  User.findById(id).then(function(user){
+    //done(null, {id: "1",username: "sakapro",password: "$2y$10$ZrutfEDj.84ey3jgnSEsz.N25DnNKKwRg60CR9oDU5o2vsY6119rG"});
+    done(null, user);
+  });
 });
 
 
@@ -60,24 +63,51 @@ passport.use(new LocalStrategy(
     passwordField: 'password'
   },
   function(username, password, done) {
-    const user = {id: "1",username: "sakapro",password: "$2y$10$ZrutfEDj.84ey3jgnSEsz.N25DnNKKwRg60CR9oDU5o2vsY6119rG"};
-    //User.findOne({ $or:[ {'username':username }, { 'email':username } ] }).then(function(user){
-      if (user.username != username) {
-        console.log("wrong username");
+
+    User.findOne({ 'email':username }).then(function(user){
+      console.log(user);
+      //console.log(password);
+      if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
       if (!bcrypt.compareSync(password, user.password)) {
-        console.log("wrong password");
         return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);
-      /*
     }).catch(function(err){
       console.log(err);
     });
-    */
   }
 ));
+
+// MIDDLEWARE
+app.use(function( req, res, next) {
+  var loggedin = false;
+  // set locals, only providing error in development
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.msgerror = req.flash('error') || null;
+  res.locals.msgdefault = req.flash('default') || null;
+  res.locals.msgsuccess = req.flash('success') || null;
+  res.locals.msgprimary = req.flash('primary') || null;
+  res.locals.msginfo = req.flash('info') || null;
+  res.locals.msgwarning = req.flash('warning') || null;
+  //console.log(res.locals.error);
+  if(req.user){
+    loggedin = true;
+      res.locals.user = req.user || {};
+      res.locals.loggedin = loggedin;
+  }else{
+    //res.locals.message = err.message;
+    res.locals.user = req.user || {};
+    res.locals.loggedin = loggedin;
+  }
+  next();
+});
+
+
+
+
 
 app.post('/login', passport.authenticate('local', {failureRedirect: '/login',
                                    failureFlash: true })

@@ -71,29 +71,42 @@ html(lang='en')
                   a.dropdown-toggle(href='#', data-toggle='dropdown')
                     i.ti-panel
                     p  Stats
-                li.dropdown
-                  a.dropdown-toggle(href='#', data-toggle='dropdown')
+                li
+                  a
                     i.ti-bell
                     p.notification 5
                     p  Notifications
+                li.dropdown
+                  a.dropdown-toggle(href='#', data-toggle='dropdown')
+                    i.ti-settings
+                    p  Settings
                     b.caret
                   ul.dropdown-menu
                     li
-                      a(href='#') Notification 1
+                      a(href='/changepassword') Change Password
                     li
-                      a(href='#') Notification 2
-                    li
-                      a(href='#') Notification 3
-                    li
-                      a(href='#') Notification 4
-                    li
-                      a(href='#') Another notification
-                li
-                  a(href='#')
-                    i.ti-settings
-                    p  Settings
+                      a(href='/logout') Logout
+                    
         .content
           .container-fluid
+            - if(msgerror.length)
+              .alert.alert-danger
+                =msgerror
+            if msginfo.length
+              .alert.alert-info 
+                =msginfo 
+            if msgsuccess.length 
+              .alert.alert-success 
+                =msgsuccess
+            if msgprimary.length
+              .alert.alert-primary 
+                =msgprimary
+            if msgwarning.length
+              .alert.alert-warning
+                =msgwarning
+            if msgdefault.length 
+              .alert.alert-default
+                =msgdefault
             block content
         footer.footer
           .container-fluid
